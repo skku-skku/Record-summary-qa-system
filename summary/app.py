@@ -14,7 +14,7 @@ def make_summary():
         text = request.form['text']
         model = LoadModel(str(text))
         summary = model.solution()
-        return render_template('index.html', summary=summary)
+        return render_template('index.html', summary=summary, text=str(text))
 
 if __name__=='__main__':
     app.run(debug = True)
