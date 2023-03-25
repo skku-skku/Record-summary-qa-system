@@ -9,17 +9,17 @@ const Height = Dimensions.get('window').height;
 
 export default function MainCard(props: { title: string; date: string, context: string }) {
   return (
-    <Shadow
-      distance={5}
-      startColor={'#00000010'}
-      containerViewStyle={{ margin: 10 }}
-    >
-      <Container>
-        <TitleText>{props.title}</TitleText>
-        <DateText>{props.date}</DateText>
-        <StyledText>{props.context}</StyledText>
-      </Container>
-    </Shadow>
+    <CardContainer>
+      <Shadow distance={2} startColor={'#00000010'} endColor={'#00000000'} offset={[0, 4]}>
+        <View style={{borderRadius: 15, backgroundColor: '#fff', padding:18}}>
+            <TitleText>{props.title}</TitleText>
+                <TextDiv>
+                    <DateText>{props.date}</DateText>
+                </TextDiv>
+            <StyledText>{props.context}</StyledText>
+        </View>
+      </Shadow>
+    </CardContainer>
   );
 }
 
@@ -34,10 +34,13 @@ const DateText = styled(Text)`
   font-size: 15;
   color: #00ABB3;
 `
-const Container = styled.View`
-    backgroundColor: #fff;
+const TextDiv = styled.View`
+  margin-top:5;
+  margin-bottom:10;
+`
+const CardContainer = styled.View`
+    backgroundColor: #F9F9F9;
+    align-items: center;
     justify-content: center;
     padding-vertical: 10;
-    padding-horizontal: 13;
-    border-radius: 20;
 `

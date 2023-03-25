@@ -7,10 +7,25 @@ import Onboarding from './src/screens/Onboarding';
 import MainScreen from './src/screens/Main';
 import DetailScreen from './src/screens/Detail';
 import UploadScreen from './src/screens/UploadScreen';
+// import { loadAsync } from 'expo-font';
+import styled from 'styled-components';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
+    // const [isFontReady, setReady] = useState(false);
+	// 	useEffect(() => {
+    //     async function fetchFont(){
+    //         await loadAsync({
+    //             "NanumGothicLight" : require('./assets/fonts/NanumGothicLight.ttf'),
+    //             "NanumGothic" : require('./assets/fonts/NanumGothic.ttf'),
+    //             "NanumGothicBold" : require('./assets/fonts/NanumGothicBold.ttf'),
+    //             "NanumGothicExtraBold" : require('./assets/fonts/NanumGothicExtraBold.ttf'),
+    //         });
+    //         setReady(true);     
+    //     }
+    //     fetchFont();
+	//    }, []);
     return (
       <RecoilRoot>
         <NavigationContainer>
@@ -24,5 +39,9 @@ const App = () => {
       </RecoilRoot>
     );
 };
+
+// const TitleText = styled(Text)`
+// 	  font-family: NanumGothic;
+// `
 
 export default App;

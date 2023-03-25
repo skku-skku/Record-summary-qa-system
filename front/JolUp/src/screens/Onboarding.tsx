@@ -18,12 +18,13 @@ const OnboardingScreen = (props: Props) => {
     const { navigation } = props;
 
     useEffect(() => {
-        setTimeout(() => navigation.navigate('Main'), 3000);
+        setTimeout(() => navigation.navigate('Main'), 1000);
     }, [navigation]);
 
     return (
         <CenterSafeAreaView>
             <StyledText>Onboarding Screen</StyledText>
+            {/* <MainIcon></MainIcon> */}
         </CenterSafeAreaView>
     );
 };

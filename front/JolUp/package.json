@@ -14,7 +14,10 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "expo-font": "^11.1.1",
+    "link": "^1.5.1",
+    "list": "^2.0.19",
     "react": "18.2.0",
+    "react-calendar": "^4.0.0",
     "react-native": "0.71.4",
     "react-native-asset": "^2.1.0",
     "react-native-gesture-handler": "^2.9.0",
@@ -47,5 +50,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }
