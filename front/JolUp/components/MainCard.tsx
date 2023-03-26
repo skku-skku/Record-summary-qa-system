@@ -25,14 +25,16 @@ export default function MainCard(props: { title: string; date: string, context: 
 
 const StyledText = styled(Text)`
   font-size: 15;
+  font-family: 'NanumGothic-Regular';
 `
 const TitleText = styled(Text)`
   font-size: 20;
-  font-weight: bold;
+  font-family: 'NanumGothic-Bold';
 `
 const DateText = styled(Text)`
   font-size: 15;
   color: #00ABB3;
+  font-family: 'NanumGothic-Regular';
 `
 const TextDiv = styled.View`
   margin-top:5;

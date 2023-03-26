@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { SafeAreaView, Text } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types/RootStackParamList';
-import { MainIcon } from '../../assets/icons';
+import {WithLocalSvg} from 'react-native-svg';
 import styled from 'styled-components';
+import { MainIcon } from '../../assets/icons';
 
 type OnboardingScreenNavigationProp = StackNavigationProp<
     RootStackParamList,
@@ -18,13 +19,20 @@ const OnboardingScreen = (props: Props) => {
     const { navigation } = props;
 
     useEffect(() => {
-        setTimeout(() => navigation.navigate('Main'), 1000);
+        setTimeout(() => navigation.navigate('Main'), 2000);
     }, [navigation]);
 
     return (
         <CenterSafeAreaView>
-            <StyledText>Onboarding Screen</StyledText>
-            {/* <MainIcon></MainIcon> */}
+            <WithLocalSvg
+                width={80}
+                height={80}
+                fill={"#000000"}
+                asset={MainIcon}
+            />
+            <StyledText style={{position: 'absolute', bottom: 40}}>
+                JolUp
+            </StyledText>
         </CenterSafeAreaView>
     );
 };
@@ -35,6 +43,7 @@ const CenterSafeAreaView = styled(SafeAreaView)`
     align-items: center;
 `;
 const StyledText = styled(Text)`
-		font-size: 20%;
+    font-size: 15;
+    color: #00ABB3;
 `
 export default OnboardingScreen;
