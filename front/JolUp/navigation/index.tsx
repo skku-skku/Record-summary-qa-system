@@ -18,7 +18,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import Onboarding from "../src/screens/Onboarding";
 import MainScreen from "../src/screens/Main";
 import DetailScreen from "../src/screens/Detail";
-import UploadScreen from "../src/screens/UploadScreen";
+import UploadScreen from "../src/screens/Upload";
 
 import { useColorScheme } from 'react-native/types';
 import { UploadIcon } from '../assets/icons/index.js';

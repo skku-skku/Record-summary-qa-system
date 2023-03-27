@@ -8,9 +8,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Onboarding from './src/screens/Onboarding';
 import MainScreen from './src/screens/Main';
 import DetailScreen from './src/screens/Detail';
-import UploadScreen from './src/screens/UploadScreen';
+import UploadScreen from './src/screens/Upload';
 import { CalendarIcon } from './assets/icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+// import { faCheckSquare, faSpinner} from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -33,16 +36,17 @@ const App = () => {
 
                         if (route.name === '일정') {
                         iconName = focused
-                            ? 'ios-information-circle'
-                            : 'ios-information-circle-outline';
-                        } else if (route.name === 'Settings') {
-                        iconName = focused ? 'ios-list' : 'ios-list-outline';
+                            ? 'calendar'
+                            : 'calendar-outline';
+                        } else if (route.name === '업로드') {
+                        iconName = focused ? 'cloud-upload' : 'cloud-upload-outline';
                         }
 
                         // You can return any component that you like here!
                         return <Ionicons name={iconName} size={size} color={color} />;
+                        // return <FontAwesomeIcon icon={faCalendar} style={{color: "#1f4151",}} />
                     },
-                    tabBarActiveTintColor: 'tomato',
+                    tabBarActiveTintColor: '#00ABB3',
                     tabBarInactiveTintColor: 'gray',
                     })}
                 >
