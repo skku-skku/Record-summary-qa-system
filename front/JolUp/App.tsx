@@ -44,7 +44,6 @@ const App = () => {
 
                         // You can return any component that you like here!
                         return <Ionicons name={iconName} size={size} color={color} />;
-                        // return <FontAwesomeIcon icon={faCalendar} style={{color: "#1f4151",}} />
                     },
                     tabBarActiveTintColor: '#00ABB3',
                     tabBarInactiveTintColor: 'gray',
@@ -56,6 +55,6 @@ const App = () => {
             </NavigationContainer>
       </RecoilRoot>
     );
-};
+}; 
 
 export default App;

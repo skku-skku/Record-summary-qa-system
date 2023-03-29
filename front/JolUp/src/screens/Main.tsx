@@ -7,8 +7,8 @@ import Calendar from 'react-calendar';
 import MainCard from '../../components/MainCard';
 import styled from 'styled-components';
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 
 const Width = Dimensions.get('window').width;
 const Height = Dimensions.get('window').height;
@@ -19,12 +19,11 @@ export default function MainScreen() {
     return (
       <Container1>
             {/* <Calendar onChange={onChange} value={value} /> */}
-            {/* <FontAwesomeIcon icon={faCalendar} style={{color: "#1f4151",}} /> */}
         <View>
             <Text style={{fontFamily: 'NanumGothic-ExtraBold', fontSize:27}}>나눔고딕 짱두꺼움</Text>
             <TitleText>나눔고딕 두꺼움</TitleText>
-            <Ionicons name={'calendar'} size="2x"/>
-            {/* <FontAwesomeIcon icon={faCalendar} style={{color: "#1f4151",}}  size="2x" /> */}
+            <Ionicons name="calendar-outline"></Ionicons>
+            <Feather name="heart" size={30} color="#ff0000" />
             <Text style={{fontFamily: 'NanumGothic-Regular', fontSize:27}}>나눔고딕 일반</Text>
             <Text style={{fontSize:27}}>나눔고딕 아님</Text>
         </View>
