@@ -1,5 +1,6 @@
 import React from "react";
 import { RecoilRoot } from 'recoil';
+import "./App.css";
 import { HashRouter, Route } from "react-router-dom";
 import MainPage from "./routes/MainPage";
 import MainCard from "./components/MainCard";

@@ -8,7 +8,7 @@ function MainPage(){
     return (
         <div>
             <div>
-                <p style={{marginLeft:'1rem', marginBottom:'0rem', fontWeight:'bold', fontSize:'1.5rem'}}>일정</p>
+                <p style={{margin:'1rem', fontWeight:'bold', fontSize:'1.4rem', fontFamily:'NanumGothicBold'}}>일정</p>
                 <hr style={{border:'none', border:'1px solid #EBEBEB'}}/>
             </div>
             <div style={{width:'90%', padding:'1rem', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
