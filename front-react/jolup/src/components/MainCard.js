@@ -2,8 +2,7 @@
 
 function MainCard({title, date, context}){
   return (
-    <div>
-        <p>Main Card Hello!</p>
+    <div style={{border:'solid', backgroundColor:'white', borderWidth:'1px', width:'95%', marginTop:'1rem'}}>
         <p>{title}</p>
         <p>{date}</p>
         <p>{context}</p>
