@@ -1,9 +1,16 @@
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
 function MainCard({title, date, context}){
   return (
-    <p>Main Card Hello!</p>
-    // <CardContainer>
+    <div>
+        <p>Main Card Hello!</p>
+        <p>{title}</p>
+        <p>{date}</p>
+        <p>{context}</p>
+    </div>
+
+
+    //   <CardContainer>
     //   {/* <Shadow distance={2} startColor={'#00000010'} endColor={'#00000000'} offset={[0, 4]}> */}
     //     <div style={{borderRadius: 15, backgroundColor: '#fff', padding:18}}>
     //         <TitleText>{title}</TitleText>
