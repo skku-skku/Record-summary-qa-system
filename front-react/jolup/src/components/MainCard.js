@@ -3,8 +3,8 @@
 function MainCard({title, date, context}){
   return (
     <div style={{backgroundColor:'white', marginBottom:'1rem', boxShadow:'5px 5px 5px #EBEBEB', paddingLeft:'1rem', paddingRight:'1rem',borderRadius:'15px 15px 15px 15px'}}>
-        <p style={{fontWeight:'bold', marginBottom:'-0.6rem'}}>{title}</p>
-        <p style={{color:'#00ABB3'}}>{date}</p>
+        <p style={{fontWeight:'bold', marginBottom:'-0.6rem', fontSize:'1.2rem'}}>{title}</p>
+        <p style={{color:'#00ABB3', fontSize:'0.8rem'}}>{date}</p>
         <p>{context}</p>
     </div>
 
