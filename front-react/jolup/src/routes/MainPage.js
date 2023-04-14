@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from 'styled-components';
 import Calendar from 'react-calendar';
 import MainCard from "../components/MainCard";
+import 'react-calendar/dist/Calendar.css';
 
 function MainPage(){
     const [value, onChange] = useState(new Date());
