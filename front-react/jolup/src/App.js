@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useQuery } from "react";
 import { RecoilRoot } from 'recoil';
 import "./App.css";
 import Calendar from 'react-calendar';
@@ -12,6 +12,23 @@ import { ReactComponent as SendIcon} from "./send.svg";
 
 function App() {
   const [value, onChange] = useState(new Date());
+//   const [mark, setMark] = useState([]);
+
+//   const { data } = useQuery(
+//     ["logDate", month],
+//     async () => {
+//       const result = await axios.get(
+//         `/api/healthLogs?health_log_type=DIET`
+//       );
+//       return result.data;
+//     },
+//     {
+//       onSuccess: (data) => {
+//         setMark(data);
+//        // ["2022-02-02", "2022-02-02", "2022-02-10"] 형태로 가져옴
+//       },
+//     }
+//   );
   return (
     <div style={{height:"100vh"}}>
         <div style={{height:"4.3rem", margin:"0.5rem"}}>
@@ -36,7 +53,23 @@ function App() {
 
             <div style={{width:'90%', padding:'1rem', display:'flex', flexDirection:'column', alignItems:'center'}}>
                 <div style={{ width:"400px", height:"400px"}}>
-                    <Calendar onChange={onChange} value={value}/>
+                    <Calendar
+                        onChange={onChange}
+                        value={value}
+                        // formatDay={(locale, date) => moment(date).format("DD")}
+                        tileContent={<div style={{display:'flex', justifyContent:"center", alignItems:"center", padding:"0.2rem"}}><div className="dot"/></div>}
+                        // tileContent={({date, veiw}) => {
+                        //     if (mark.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+                        //         return (
+                        //          <>
+                        //            <div className="flex justify-center items-center absoluteDiv">
+                        //              <div className="dot"></div>
+                        //            </div>
+                        //          </>
+                        //        );
+                        //     }
+                        // }}
+                        />
                 </div>
                 <div style={{backgroundColor:'#F9F9F9', boxShadow:'3px 3px 3px #C3C3C3', borderRadius:'15px 15px 15px 15px', marginBottom:"0rem", marginTop:"1rem", width:"95%", height:"7%", display:"flex", flexDirection:"row", justifyContent:"space-between",  alignItems:'center', padding:"1rem", height:'2rem'}}>
                     <p style={{fontFamily:'NanumGothicBold', color:'#00ABB3', marginRight:"2rem"}}>Q</p>
