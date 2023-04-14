@@ -12,6 +12,11 @@ import { ReactComponent as SendIcon} from "./send.svg";
 
 function App() {
   const [value, onChange] = useState(new Date());
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  }
 //   const [mark, setMark] = useState([]);
 
 //   const { data } = useQuery(
@@ -73,7 +78,14 @@ function App() {
                 </div>
                 <div style={{backgroundColor:'#F9F9F9', boxShadow:'3px 3px 3px #C3C3C3', borderRadius:'15px 15px 15px 15px', marginBottom:"0rem", marginTop:"1rem", width:"95%", height:"7%", display:"flex", flexDirection:"row", justifyContent:"space-between",  alignItems:'center', padding:"1rem", height:'2rem'}}>
                     <p style={{fontFamily:'NanumGothicBold', color:'#00ABB3', marginRight:"2rem"}}>Q</p>
-                    <SendIcon width='1rem'/>
+                    <input
+                        type="text"
+                        value={inputValue}
+                        onChange={handleChange}
+                        placeholder="질문을 입력해주세요."
+                        style={{width:"100%", marginRight:"1.5rem", border:"none", height:"100%", backgroundColor:'#F9F9F9', fontFamily:'NanumGothic', fontSize:'1rem'}}
+                        />
+                    <SendIcon width='1.3rem'/>
                 </div>
                 <Answer content={"대답합니다."}/>
             </div>
