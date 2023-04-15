@@ -8,10 +8,11 @@ import speech_recognition as sr
 
 app = Flask(__name__)
 
-# client = MongoClient('localhost', 27017)
-# print(client)
-# db = client.Record
-# print(db)
+#Mongo DB 연결 
+client = MongoClient('localhost', 27017)
+print(client)
+db = client.Record
+print(db)
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:\\Users\\공부 ㅅㄱ~~\\Desktop\\성균관대학교\\졸업작품\\backend\\assistant.json'
 # CHUNK_SIZE = 5000000
 
@@ -29,6 +30,7 @@ def check():
 @app.route('/upload', methods=['GET','POST'])
 def uploader():
     return render_template("upload.html")
+
 
 @app.route('/uploader', methods=['GET', 'POST'])
 def upload():
@@ -89,9 +91,18 @@ def upload():
                         print(f"음성을 인식하는 중에 오류가 발생하였습니다: {e}")
                     offset += duration
 
+        #여기 데이터 베이스 조금 더 수정 받아함    
+        record = {
+            #'title':
+            #'create_date':
+            'original': stt_result
+            #'summary':
+        }    
+
+        db.records.insert_one(record)
         print(stt_result)
         return stt_result
 
- 
+
 if __name__ == '__main__':
     app.run('localhost', port = 9999, debug=True)
