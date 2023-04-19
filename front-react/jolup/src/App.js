@@ -1,4 +1,4 @@
-import React, { useState,useQuery } from "react";
+import React, { useState,useQuery, useRef } from "react";
 import { RecoilRoot } from 'recoil';
 import "./App.css";
 import Calendar from 'react-calendar';
@@ -14,6 +14,8 @@ function App() {
   const [value, onChange] = useState(new Date());
   const [inputValue, setTitle] = useState('');
   const [inputValue2, setInputValue] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const fileInput = useRef(null);
 
   const handleChange = (e) => { //제목 입력 
     setTitle(e.target.value);
@@ -21,6 +23,39 @@ function App() {
   const handleChange2 = (e) => { //질문입력
     setInputValue(e.target.value);
   }
+
+  const handleButtonClick = () => {
+    fileInput.current.click();
+  };
+
+  const handleFileSelect = (e) => {
+    const selectedFile = e.target.files[0];
+    setSelectedFileName(selectedFile.name);
+  };
+
+  const handleSummarize = (event) =>
+  {
+    event.preventDefault(); // 기본 동작 막기
+    const formData = new FormData();
+    formData.append('inputfile', fileInput.current.files[0]);
+    formData.append('title', inputValue);
+    alert(`파일: ${selectedFileName}, 제목: ${inputValue}`);
+  };
+  
+//   const fileUpload = () => { //파일 업로더
+//   };
+    
+//     const fileInput = async(e) => {
+//         const target = e.target;
+//         if(!target) return;
+
+//         const file = target.file;
+//         if(!file)   return;
+
+//         const formData = new FormData();
+//     }
+
+//   }
 //   const [mark, setMark] = useState([]);
 
 //   const { data } = useQuery(
@@ -38,6 +73,13 @@ function App() {
 //       },
 //     }
 //   );
+{/* <form onSubmit={여기에 핸들러}>
+  <input name="title" required />
+  <input name="date" type="date" required />
+  <input name="file" type="file" required />
+  <button>요약하기</button>
+</form> */}
+
   return (
     <div style={{height:"100vh"}}>
         <div style={{height:"4.3rem", margin:"0.5rem"}}>
@@ -50,22 +92,35 @@ function App() {
 
         <div style={{display:'flex', flexDirection:'row', marginTop:"-0.5rem"}}>
             <div style={{backgroundColor:'#F9F9F9', width:'50%', display:'flex', flexDirection:'column', justifyContent:'cneter', alignItems:'center'}}>
+
                 <p style={{fontFamily:'NanumGothicBold', fontSize:"1.2rem", margin:"2rem"}}>업로드</p>
+
                 <p style={{fontSize:'0.8rem', color:'#00ABB3', marginTop:"-1rem"}}>{value.toDateString()}</p>
-                <p style={{textDecorationLine:"underline", margin:"2rem"}} >WAV 파일 불러오기</p>
-                <div style={{backgroundColor:'#FFFFFF', boxShadow:'3px 3px 3px #C3C3C3', borderRadius:'15px 15px 15px 15px', marginBottom:"0rem", marginTop:"1rem", width:"60%", height:"0%", display:"flex", flexDirection:"row", justifyContent:"space-between",  alignItems:'center', padding:"1rem"}}>
-                <input 
-                    type="text" 
-                    value={inputValue}
-                    onChange={handleChange} 
-                    placeholder="제목을 입력해주세요."
-                    style={{ width: "100%", border:"none", backgroundColor:'#FFFFFF', fontFamily:'NanumGothic', fontSize:'1rem'}}/>
+                
+                <button onClick={handleButtonClick}>음성 파일 불러오기</button>
+
+                <form   onSubmit={handleSummarize}>
+                <input name="inputfile" type="file" required ref={fileInput} style={{ display: 'none' }} onChange={handleFileSelect}/>
+
+                {selectedFileName && <p style={{fontFamily:'NanumGothicBold', fontSize:"0.8rem",textAlign:"center"}}>
+                    선택된 파일: {selectedFileName}</p>}
+
+                <div style={{backgroundColor:'#FFFFFF', boxShadow:'3px 3px 3px #C3C3C3', borderRadius:'15px 15px 15px 15px', marginBottom:"0rem", marginTop:"1rem", width:"80%", height:"0%", display:"flex", justifyContent:"space-between",  alignItems:'center', padding:"1rem"}}>
+
+                <input name="title" type="text" required value={inputValue} onChange={handleChange} 
+                        placeholder="제목을 입력해주세요."
+                        style={{ width: "100%", border:"none", backgroundColor:'#FFFFFF', fontFamily:'NanumGothic', fontSize:'1rem'}}/>
+                
                 </div>
-                <Button name={"요약하기"}/>
+                <Button type="submit" name={"요약하기"} onClick={handleSummarize}/>
+                </form>
+
                 <Box content={"요약된 내용입니다다다다다 주요안건은 다음과 같습니ㄷ다...아아아아가나다라마바사아자차카s"}/>
+
                 <div style={{position:"absolute", bottom:"1rem", margin:"auto"}}>
                     <Button name={"등록하기"} />
                 </div>
+
             </div>
 
             <div style={{width:'90%', padding:'1rem', display:'flex', flexDirection:'column', alignItems:'center'}}>
