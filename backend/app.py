@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from pydub import AudioSegment
 from flask_restx import Api, Resource, reqparse
@@ -7,21 +8,21 @@ from load_model import LoadModel
 import speech_recognition as sr
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app) #API 구현을 위한 api 객체 등록
+
 
 #Mongo DB 연결 
 client = MongoClient('localhost', 27017)
 print(client)
 db = client.Record
 print(db)
-# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:\\Users\\공부 ㅅㄱ~~\\Desktop\\성균관대학교\\졸업작품\\backend\\assistant.json'
-# CHUNK_SIZE = 5000000
 
-# Main page
-@app.route('/', methods=['GET','POST'])
-class MainPage(Resource):
-    def home():
-        return render_template('index.html')
+# # Main page
+# @app.route('/', methods=['GET','POST'])
+# class MainPage(Resource):
+#     def home():
+#         return render_template('index.html')
 
 
 # # Upload page 버튼 클릭시 이 라우트 이용
@@ -30,10 +31,14 @@ class MainPage(Resource):
 #     return render_template("upload.html")
 
 #파일 업로드 후 STT 진행
-@api.route('/uploader', methods=['GET', 'POST'])
+@api.route('/uploader')
 class UpLoader(Resource):
  def post(self):
-    f = request.files['file']
+
+    f = request.files['inputfile']
+    #회의록 제목
+    title = request.form['title']
+    date = request.form['date']
     #음성 파일 이름만 추출
     name = f.filename.split('.')[0]
     #음성 파일의 타입 추출
@@ -90,11 +95,14 @@ class UpLoader(Resource):
     #요약 실행
     model = LoadModel(str(stt_result))
     summary = model.solution()
+    print("title: "+ title)
+    print("date" + date)
+    print("summary " + summary)
 
     # MongoDB에 저장
     record = {
-            #'title':
-            #'create_date':
+            'title':title,
+            'create_date':date,
             'original': stt_result,
             'summary': summary
         } 
@@ -103,7 +111,7 @@ class UpLoader(Resource):
     # db에 저장할 값 
     #db.records.insert_one(record)
 
-    print(stt_result) # 전체 stt_result
+    print("stt_result is " + stt_result) # 전체 stt_result
     #요약된 텍스트를 return 해서 front에서 보여줄 것 
     return {'summary': " "}, 200
             

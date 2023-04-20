@@ -1,4 +1,5 @@
 import React, { useState,useQuery, useRef } from "react";
+import axios from 'axios'
 import { RecoilRoot } from 'recoil';
 import "./App.css";
 import Calendar from 'react-calendar';
@@ -10,12 +11,16 @@ import 'react-calendar/dist/Calendar.css';
 import { ReactComponent as MainIcon} from "./main_icon.svg";
 import { ReactComponent as SendIcon} from "./send.svg";
 
+
+
 function App() {
+
   const [value, onChange] = useState(new Date());
   const [inputValue, setTitle] = useState('');
   const [inputValue2, setInputValue] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const fileInput = useRef(null);
+  const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
 
   const handleChange = (e) => { //제목 입력 
     setTitle(e.target.value);
@@ -37,9 +42,23 @@ function App() {
   {
     event.preventDefault(); // 기본 동작 막기
     const formData = new FormData();
+    formData.append("date", dateFormatter.format(value));
     formData.append('inputfile', fileInput.current.files[0]);
     formData.append('title', inputValue);
-    alert(`파일: ${selectedFileName}, 제목: ${inputValue}`);
+
+    axios.post('http://localhost:9999/uploader', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }})
+        .then((response)=>{
+            console.log(response);
+            console.log(selectedFileName);
+            console.log(inputValue);
+            alert(`업로드한 ${selectedFileName} 파일이 성공적으로 요약되었습니다.`);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+    
   };
   
 //   const fileUpload = () => { //파일 업로더
@@ -73,12 +92,7 @@ function App() {
 //       },
 //     }
 //   );
-{/* <form onSubmit={여기에 핸들러}>
-  <input name="title" required />
-  <input name="date" type="date" required />
-  <input name="file" type="file" required />
-  <button>요약하기</button>
-</form> */}
+
 
   return (
     <div style={{height:"100vh"}}>
