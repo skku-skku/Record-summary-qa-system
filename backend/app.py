@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from load_model import LoadModel
 import speech_recognition as sr
 
+
 app = Flask(__name__)
 CORS(app)
 api = Api(app) #API 구현을 위한 api 객체 등록
@@ -113,7 +114,14 @@ class UpLoader(Resource):
 
     print("stt_result is " + stt_result) # 전체 stt_result
     #요약된 텍스트를 return 해서 front에서 보여줄 것 
-    return {'summary': " "}, 200
+
+    return {'summary': summary}, 200
+ 
+@api.route('/question')
+class Question(Resource):
+    def post():
+        return
+
             
 
 

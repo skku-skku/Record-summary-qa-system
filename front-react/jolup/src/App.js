@@ -1,4 +1,4 @@
-import React, { useState,useQuery, useRef } from "react";
+import React, { useState,useQuery, useRef, useEffect } from "react";
 import axios from 'axios'
 import { RecoilRoot } from 'recoil';
 import "./App.css";
@@ -18,7 +18,10 @@ function App() {
   const [value, onChange] = useState(new Date());
   const [inputValue, setTitle] = useState('');
   const [inputValue2, setInputValue] = useState('');
+  const [getsummary, setSummary] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [cards, setCards] = useState([]);
+  // const cardsRef = useRef([]);
   const fileInput = useRef(null);
   const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
 
@@ -52,6 +55,7 @@ function App() {
             console.log(response);
             console.log(selectedFileName);
             console.log(inputValue);
+            setSummary(response.data.summary);
             alert(`업로드한 ${selectedFileName} 파일이 성공적으로 요약되었습니다.`);
         })
         .catch((error) => {
@@ -60,6 +64,18 @@ function App() {
 
     
   };
+  
+  const registerCard=() =>{
+    const newCard = {
+      title: inputValue,
+      date: dateFormatter.format(value),
+      summary:getsummary
+    };
+    setCards([...cards, newCard]);
+  };
+    useEffect(() => {
+      console.log(cards);
+    }, [cards]);
   
 //   const fileUpload = () => { //파일 업로더
 //   };
@@ -129,10 +145,10 @@ function App() {
                 <Button type="submit" name={"요약하기"} onClick={handleSummarize}/>
                 </form>
 
-                <Box content={"요약된 내용입니다다다다다 주요안건은 다음과 같습니ㄷ다...아아아아가나다라마바사아자차카s"}/>
+                <Box content={getsummary} />
 
                 <div style={{position:"absolute", bottom:"1rem", margin:"auto"}}>
-                    <Button name={"등록하기"} />
+                    <Button name={"등록하기"} onClick={registerCard}/>
                 </div>
 
             </div>
@@ -170,14 +186,19 @@ function App() {
                 </div>
                 <Answer content={"대답합니다."}/>
             </div>
+
             <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
-                <MainCard title={"클라이언트 1차 미팅-1"} date={"2023년 3월 25일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
+              {cards.map((card, index) => (
+            <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
+              ))}
+                {/* <MainCard title={"클라이언트 1차 미팅-1"} date={"2023년 3월 25일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
                 <MainCard title={"스타일 컴포넌트 왜 안 돼"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
                 <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
                 <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
                 <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
                 <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
+                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/> */}
+                
             </div>
         </div>
   </div>
