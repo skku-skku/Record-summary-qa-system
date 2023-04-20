@@ -10,6 +10,7 @@ import Answer from "./components/Answer";
 import 'react-calendar/dist/Calendar.css';
 import { ReactComponent as MainIcon} from "./main_icon.svg";
 import { ReactComponent as SendIcon} from "./send.svg";
+import { formatDate } from "react-calendar/dist/cjs/shared/dateFormatter";
 
 
 
@@ -21,6 +22,8 @@ function App() {
   const [getsummary, setSummary] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [cards, setCards] = useState([]);
+  const [question, setQuestion] =useState('');
+  const [getAnswer, setAnswer] = useState('');
   // const cardsRef = useRef([]);
   const fileInput = useRef(null);
   const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
@@ -31,6 +34,7 @@ function App() {
   const handleChange2 = (e) => { //질문입력
     setInputValue(e.target.value);
   }
+
 
   const handleButtonClick = () => {
     fileInput.current.click();
@@ -77,6 +81,25 @@ function App() {
       console.log(cards);
     }, [cards]);
   
+  const handleQuestion = (e)=>{
+    e.preventDefault(); // 기본 동작 막기
+
+    const formData = new FormData();
+    formData.append('date', dateFormatter.format(value))
+    formData.append("question", inputValue2);
+
+    axios.post('http://localhost:9999/question', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData})
+        .then((response)=>{
+            console.log(response);
+            console.log(inputValue2);
+            setAnswer(response.data.answer);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+  }
 //   const fileUpload = () => { //파일 업로더
 //   };
     
@@ -142,12 +165,15 @@ function App() {
                         style={{ width: "100%", border:"none", backgroundColor:'#FFFFFF', fontFamily:'NanumGothic', fontSize:'1rem'}}/>
                 
                 </div>
-                <Button type="submit" name={"요약하기"} onClick={handleSummarize}/>
+                <div style={{width: '100%', display: 'flex', flexDirection:'row', alignItems:'center', ifyContent:'center', justifyContent:'center'}}>
+                  <Button type="submit" name={"요약하기"} onClick={handleSummarize}/>
+                </div>
+                
                 </form>
 
                 <Box content={getsummary} />
 
-                <div style={{position:"absolute", bottom:"1rem", margin:"auto"}}>
+                <div style={{position:"absolute", bottom:"-0.6rem", margin:"auto"}}>
                     <Button name={"등록하기"} onClick={registerCard}/>
                 </div>
 
@@ -182,9 +208,9 @@ function App() {
                         placeholder="질문을 입력해주세요."
                         style={{width:"100%", marginRight:"1.5rem", border:"none", height:"100%", backgroundColor:'#F9F9F9', fontFamily:'NanumGothic', fontSize:'1rem'}}
                         />
-                    <SendIcon width='1.3rem'/>
+                    <SendIcon width='1.3rem' onClick={handleQuestion}/>
                 </div>
-                <Answer content={"대답합니다."}/>
+                <Answer content={getAnswer}/>
             </div>
 
             <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
