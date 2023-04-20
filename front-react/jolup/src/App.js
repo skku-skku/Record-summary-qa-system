@@ -22,9 +22,8 @@ function App() {
   const [getsummary, setSummary] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [cards, setCards] = useState([]);
-  const [question, setQuestion] =useState('');
+  // const [question, setQuestion] =useState('');
   const [getAnswer, setAnswer] = useState('');
-  // const cardsRef = useRef([]);
   const fileInput = useRef(null);
   const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
 
