@@ -99,7 +99,7 @@ class UpLoader(Resource):
     print("date" + date)
     print("summary " + summary)
 
-    # MongoDB에 저장
+    # MongoDB에 저장할 딕셔너리
     record = {
             'title':title,
             'create_date':date,
@@ -109,7 +109,7 @@ class UpLoader(Resource):
     
     
     # db에 저장할 값 
-    #db.records.insert_one(record)
+    db.records.insert_one(record)
 
     print("stt_result is " + stt_result) # 전체 stt_result
     #요약된 텍스트를 return 해서 front에서 보여줄 것 
