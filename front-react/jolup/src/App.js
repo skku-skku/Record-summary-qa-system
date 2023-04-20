@@ -185,7 +185,7 @@ function App() {
                         onChange={onChange}
                         value={value}
                         // formatDay={(locale, date) => moment(date).format("DD")}
-                        tileContent={<div style={{display:'flex', justifyContent:"center", alignItems:"center", padding:"0.2rem"}}><div className="dot"/></div>}
+                        //tileContent={<div style={{display:'flex', justifyContent:"center", alignItems:"center", padding:"0.2rem"}}><div className="dot"/></div>}
                         // tileContent={({date, veiw}) => {
                         //     if (mark.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
                         //         return (
