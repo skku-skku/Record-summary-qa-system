@@ -37,7 +37,7 @@ print(db)
 # def uploader():
 #     return render_template("upload.html")
 
-data = {"2023-04-20": "주요안건은 다음과 같습니다. 상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은 사용자의 사용자 경험을 고려하는 것이 가장 중요합니다. 저희 마감이 다음주 월요일이니까 그때까지만 다들 조금만 신경써주시면 감사할 것 같습니다. 특히 색상의 경우에는 색약을 고려하여 빨간색과 초록색은  배제하는 것이 좋을 것 같습니다.", "2023-04-26": "오늘 회의 시작하겠습니다. 계현씨 어제 말씀드린 안건은 어떻게 됐나요. 어제 데이터를 찾아본 결과 필요한 데이터들은 다 존재했고요 추가적으로 요약에 대한 데이터를 더 찾아보려고합니다. 모두의 말뭉치에 데이터가 많던데 혹시 여기서는 수집하셨나요 네 여기서도 수집완료하였습니다. 다른 분들도 필요한 데이터들 다 수집해주시고요 20일까지는 수집과 전처리가 모두 완료되어야 합니다. 다음주 수요일 회의때까지 보고서 잘 작성하시고 전처리해서 와주시면 감사하겠습니다"}
+#data = {"2023-04-20": "주요안건은 다음과 같습니다. 상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은 사용자의 사용자 경험을 고려하는 것이 가장 중요합니다. 저희 마감이 다음주 월요일이니까 그때까지만 다들 조금만 신경써주시면 감사할 것 같습니다. 특히 색상의 경우에는 색약을 고려하여 빨간색과 초록색은  배제하는 것이 좋을 것 같습니다.", "2023-04-26": "오늘 회의 시작하겠습니다. 계현씨 어제 말씀드린 안건은 어떻게 됐나요. 어제 데이터를 찾아본 결과 필요한 데이터들은 다 존재했고요 추가적으로 요약에 대한 데이터를 더 찾아보려고합니다. 모두의 말뭉치에 데이터가 많던데 혹시 여기서는 수집하셨나요 네 여기서도 수집완료하였습니다. 다른 분들도 필요한 데이터들 다 수집해주시고요 20일까지는 수집과 전처리가 모두 완료되어야 합니다. 다음주 수요일 회의때까지 보고서 잘 작성하시고 전처리해서 와주시면 감사하겠습니다"}
 
 
 # 파일 업로드 후 STT 진행
@@ -106,11 +106,13 @@ class UpLoader(Resource):
     
     #요약 실행
     tmp= "주요안건은 다음과 같습니다. 상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은 사용자의 사용자 경험을 고려하는 것이 가장 중요합니다. 저희 마감이 다음주 월요일이니까 그때까지만 다들 조금만 신경써주시면 감사할 것 같습니다. 특히 색상의 경우에는 색약을 고려하여 빨간색과 초록색은  배제하는 것이 좋을 것 같습니다."
+    #model = LoadModel(str(tmp))
     model = LoadModel(str(stt_result))
     summary = model.solution()
     print("title: "+ title)
-    print("date" + date)
-    print("summary " + summary)
+    print("date: " + date)
+    print("Result: " + stt_result)
+    print("summary: " + summary)
 
     # MongoDB에 저장할 딕셔너리
     record = {
@@ -120,12 +122,12 @@ class UpLoader(Resource):
             'summary': summary
         } 
     
-    if date not in data:
-        data[date] = stt_result
-    else:
-        data[date] += stt_result
+    # if date not in data:
+    #     data[date] = stt_result
+    # else:
+    #     data[date] += stt_result
     
-    print(data)
+    # print(data)
     
     # db에 저장할 값 
     db.records.insert_one(record)
@@ -140,41 +142,22 @@ class Question(Resource):
     def post(self):
         # 회의록 본문
         # db에서 모든 record 검색
-        # records = db.records.find({}, {'create_date': 1, 'original': 1})
-
-        # # 날짜별 original 데이터를 저장할 딕셔너리 생성
-        # data = {}
-
-        # # 검색된 record를 하나씩 처리
-        # for record in records:
-        #     create_date = record['create_date']
-        #     original = record['original']
-
-        #     # 날짜별 original 데이터를 저장하는 리스트가 딕셔너리에 존재하는지 확인
-        #     if create_date in data:
-        #         data[create_date].append(original)
-        #     else:
-        #         data[create_date] = [original]
-
-        # # original 데이터만 추출
-        # original_data = []
-        # for value in data.values():
-        #     original_data.extend(value)
-
-        # 질문
         question = request.form['question']
         print(question)
 
         # 질문하고 싶은 날짜
         date = request.form['date']
         print(date)
-        text = [data[date]]
+        record = db.records.find({'create_date': date})
+        text = [r['original'] for r in record]
+
         print(text)
-        # 프롬프트
+
+        # # 프롬프트
         messages = [{"role":"system", "content":f"Please answer in follow sentences. '{text}'"}]
         
 
-        # Question and Answering
+        # # Question and Answering
         
         if question:
             messages.append({
@@ -183,11 +166,11 @@ class Question(Resource):
             chat = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo", messages=messages
             )
+
         answer = str(chat.choices[0].message.content)
         print(answer)
         
-        # messages.append({"role":"assistant", "content":reply})
-
+        # messages.append({"role":"assistant", "content":reply})    
         return {'answer' : answer}
 
 
