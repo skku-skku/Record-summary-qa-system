@@ -223,21 +223,7 @@ function App() {
                 <div style={{ width:"400px", height:"400px"}}>
                     <Calendar
                         onChange={handleDateChange}
-                        value={value}
-                        // formatDay={(locale, date) => moment(date).format("DD")}
-                        //tileContent={<div style={{display:'flex', justifyContent:"center", alignItems:"center", padding:"0.2rem"}}><div className="dot"/></div>}
-                        // tileContent={({date, veiw}) => {
-                        //     if (mark.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-                        //         return (
-                        //          <>
-                        //            <div className="flex justify-center items-center absoluteDiv">
-                        //              <div className="dot"></div>
-                        //            </div>
-                        //          </>
-                        //        );
-                        //     }
-                        // }}
-                        />
+                        value={value}/>
                 </div>
                 <div style={{backgroundColor:'#F9F9F9', boxShadow:'3px 3px 3px #C3C3C3', borderRadius:'15px 15px 15px 15px', marginBottom:"0rem", marginTop:"1rem", width:"95%", height:"7%", display:"flex", flexDirection:"row", justifyContent:"space-between",  alignItems:'center', padding:"1rem", height:'2rem'}}>
                     <p style={{fontFamily:'NanumGothicBold', color:'#00ABB3', marginRight:"2rem"}}>Q</p>
@@ -252,19 +238,23 @@ function App() {
                 </div>
                 <Answer content={getAnswer}/>
             </div>
+            
+            <div style={{backgroundColor:'#F9F9F9', width:'50%', display:'flex', flexDirection:'column', justifyContent:'cneter', alignItems:'center'}}>
+            {filteredCards.map((card, index) => (
+              <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
+              ))}
+            </div>
 
             {/* <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
               {cards.map((card, index) => (
             <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
               ))}
-
-                
             </div> */}
-              <div style={{ backgroundColor: '#F9F9F9', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '87vh', overflowY: 'auto' }}>
+              {/* <div style={{ backgroundColor: '#F9F9F9', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '87vh', overflowY: 'auto'}}>
               {filteredCards.map((card, index) => (
               <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
               ))}
-          </div>
+          </div> */}
         </div>
   </div>
   );
