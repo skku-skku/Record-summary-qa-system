@@ -21,12 +21,26 @@ function App() {
   const [getsummary, setSummary] = useState('');
   const [selectedFileName, setSelectedFileName] = useState('');
   const [cards, setCards] = useState([]);
-  // const [question, setQuestion] =useState('');
+  const [data, setData] = useState([]);
   const [getAnswer, setAnswer] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date()); //선택된 날짜
   const fileInput = useRef(null);
   const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
 
+
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:9999/data');
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleChange = (e) => { //제목 입력 
     setTitle(e.target.value);
@@ -88,6 +102,7 @@ function App() {
       console.log(cards);
     }, [cards]);
   
+    
   // const registerCard = () => {
   //   const newCard = {
   //     title: inputValue,
@@ -120,7 +135,22 @@ function App() {
   const cardDate = new Date(card.date);
   return cardDate.toDateString() === selectedDate.toDateString();
 });
-     
+
+useEffect(() => {
+  fetchData();
+}, [selectedDate]);
+
+const fetchData = async () => {
+  try {
+    const formattedDate = dateFormatter.format(selectedDate);
+    const response = await axios.get(`http://localhost:9999/data?date=${formattedDate}`);
+    setData(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
   const handleQuestion = (e)=>{
     e.preventDefault(); // 기본 동작 막기
 
@@ -140,38 +170,6 @@ function App() {
             console.log(error);
         })
   }
-//   const fileUpload = () => { //파일 업로더
-//   };
-    
-//     const fileInput = async(e) => {
-//         const target = e.target;
-//         if(!target) return;
-
-//         const file = target.file;
-//         if(!file)   return;
-
-//         const formData = new FormData();
-//     }
-
-//   }
-//   const [mark, setMark] = useState([]);
-
-//   const { data } = useQuery(
-//     ["logDate", month],
-//     async () => {
-//       const result = await axios.get(
-//         `/api/healthLogs?health_log_type=DIET`
-//       );
-//       return result.data;
-//     },
-//     {
-//       onSuccess: (data) => {
-//         setMark(data);
-//        // ["2022-02-02", "2022-02-02", "2022-02-10"] 형태로 가져옴
-//       },
-//     }
-//   );
-
 
   return (
     <div style={{height:"100vh"}}>
@@ -234,27 +232,26 @@ function App() {
                         placeholder="질문을 입력해주세요."
                         style={{width:"100%", marginRight:"1.5rem", border:"none", height:"100%", backgroundColor:'#F9F9F9', fontFamily:'NanumGothic', fontSize:'1rem'}}
                         />
-                    <SendIcon width='1.3rem' onClick={handleQuestion}/>
+                    <SendIcon className="send-icon" width="1.3rem" onClick={handleQuestion}
+                    style={{
+                          transform: "scale(1)",
+                          transition: "transform 0.2s ease-in-out",}}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = "scale(1.2)";}}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = "scale(1)";}}/>
                 </div>
                 <Answer content={getAnswer}/>
             </div>
             
             <div style={{backgroundColor:'#F9F9F9', width:'50%', display:'flex', flexDirection:'column', justifyContent:'cneter', alignItems:'center'}}>
+            {data.map((card, index) => (
+            <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
+            ))}
             {filteredCards.map((card, index) => (
               <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
               ))}
             </div>
-
-            {/* <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
-              {cards.map((card, index) => (
-            <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
-              ))}
-            </div> */}
-              {/* <div style={{ backgroundColor: '#F9F9F9', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '87vh', overflowY: 'auto'}}>
-              {filteredCards.map((card, index) => (
-              <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
-              ))}
-          </div> */}
         </div>
   </div>
   );
