@@ -11,7 +11,8 @@ from load_model import LoadModel
 import speech_recognition as sr
 import openai
 
-openai.api_key = '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'
+# API key 업데이트
+openai.api_key = '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'
 
 
 app = Flask(__name__)
