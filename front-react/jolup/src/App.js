@@ -1,4 +1,4 @@
-import React, { useState,useQuery, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios'
 import { RecoilRoot } from 'recoil';
 import "./App.css";
@@ -13,7 +13,6 @@ import { ReactComponent as SendIcon} from "./send.svg";
 import { formatDate } from "react-calendar/dist/cjs/shared/dateFormatter";
 
 
-
 function App() {
 
   const [value, onChange] = useState(new Date());
@@ -24,8 +23,10 @@ function App() {
   const [cards, setCards] = useState([]);
   // const [question, setQuestion] =useState('');
   const [getAnswer, setAnswer] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date()); //선택된 날짜
   const fileInput = useRef(null);
   const dateFormatter = new Intl.DateTimeFormat('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit'});//날짜 포맷터
+
 
   const handleChange = (e) => { //제목 입력 
     setTitle(e.target.value);
@@ -33,8 +34,6 @@ function App() {
   const handleChange2 = (e) => { //질문입력
     setInputValue(e.target.value);
   }
-
-
   const handleButtonClick = () => {
     fileInput.current.click();
   };
@@ -68,18 +67,60 @@ function App() {
     
   };
   
-  const registerCard=() =>{
+  // const registerCard=() =>{
+  //   const newCard = {
+  //     title: inputValue,
+  //     date: dateFormatter.format(value),
+  //     summary:getsummary
+  //   };
+  //   setCards([...cards, newCard]);
+  // };
+  const registerCard = () => {
     const newCard = {
       title: inputValue,
       date: dateFormatter.format(value),
-      summary:getsummary
+      summary: getsummary,
     };
-    setCards([...cards, newCard]);
+
+    setCards((prevCards) => [...prevCards, newCard]);
   };
     useEffect(() => {
       console.log(cards);
     }, [cards]);
   
+  // const registerCard = () => {
+  //   const newCard = {
+  //     title: inputValue,
+  //     date: dateFormatter.format(value),
+  //     summary: getsummary
+  //   };
+  
+  //   // Make a GET request to the server to fetch the data
+  //   axios.get('http://localhost:9999/data')
+  //     .then((response) => {
+  //       // Update the `cards` state with the received data
+  //       const data = response.data.data;
+  //       setCards([...cards, newCard, ...data]);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+  //     useEffect(() => {
+  //     console.log(cards);
+  //   }, [cards]);
+  
+  const handleDateChange = (date) => {
+    onChange(date);
+    setSelectedDate(date);
+    
+  };
+
+  const filteredCards = cards.filter((card) => {
+  const cardDate = new Date(card.date);
+  return cardDate.toDateString() === selectedDate.toDateString();
+});
+     
   const handleQuestion = (e)=>{
     e.preventDefault(); // 기본 동작 막기
 
@@ -181,7 +222,7 @@ function App() {
             <div style={{width:'90%', padding:'1rem', display:'flex', flexDirection:'column', alignItems:'center'}}>
                 <div style={{ width:"400px", height:"400px"}}>
                     <Calendar
-                        onChange={onChange}
+                        onChange={handleDateChange}
                         value={value}
                         // formatDay={(locale, date) => moment(date).format("DD")}
                         //tileContent={<div style={{display:'flex', justifyContent:"center", alignItems:"center", padding:"0.2rem"}}><div className="dot"/></div>}
@@ -212,19 +253,18 @@ function App() {
                 <Answer content={getAnswer}/>
             </div>
 
-            <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
+            {/* <div style={{backgroundColor:'#F9F9F9', display:'flex', flexDirection:'column', alignItems:'center', padding:'1rem', height:"87vh" ,overflowY:"auto"}}>
               {cards.map((card, index) => (
             <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
               ))}
-                {/* <MainCard title={"클라이언트 1차 미팅-1"} date={"2023년 3월 25일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"스타일 컴포넌트 왜 안 돼"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/>
-                <MainCard title={"개빡치네"} date={"2023년 3월 26일 토요일"} context={"주요안건은 다음과 같습니다.  상품출고일까지 기한을 지켜서 준비를 완료시켜야 합니다. 상품에 마감 처리에 좀 더 신경을 써야하며, 색상도 알맞게 나왔는지 확인하는 것이 중요합니다. 가장 중요한 것은.."}/> */}
+
                 
-            </div>
+            </div> */}
+              <div style={{ backgroundColor: '#F9F9F9', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '87vh', overflowY: 'auto' }}>
+              {filteredCards.map((card, index) => (
+              <MainCard key={index} title={card.title} date={card.date} context={card.summary} />
+              ))}
+          </div>
         </div>
   </div>
   );
