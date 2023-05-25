@@ -234,6 +234,7 @@ const fetchData = async () => {
                         />
                     <SendIcon className="send-icon" width="1.3rem" onClick={handleQuestion}
                     style={{
+                      cursor: 'pointer',
                           transform: "scale(1)",
                           transition: "transform 0.2s ease-in-out",}}
                           onMouseEnter={(e) => {
